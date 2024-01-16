@@ -7,7 +7,13 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
+        fontFamily: {
+            'display': ['Lemon']
+        },
         extend: {},
     },
     plugins: [daisyui],
+    daisyui: {
+        themes: ["corporate", "business"],
+    },
 }

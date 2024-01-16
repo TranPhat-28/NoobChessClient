@@ -3,7 +3,7 @@ import {
     PiGearSixBold,
     PiHouseBold,
     PiTrophyBold,
-    PiNewspaperClippingBold
+    PiNewspaperClippingBold,
 } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
 import ResponsiveNavLink from "./ResponsiveNavLink";
