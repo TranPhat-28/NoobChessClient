@@ -1,61 +1,38 @@
 import {
-    PiBookBookmarkBold,
-    PiCirclesThreeBold,
+    PiUsersBold,
     PiGearSixBold,
     PiHouseBold,
-    PiShoppingBagBold,
+    PiTrophyBold,
+    PiNewspaperClippingBold
 } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
+import ResponsiveNavLink from "./ResponsiveNavLink";
 
 const CustomNavbar = () => {
     return (
-        <div className="bg-base-200 flex justify-center">
-            <div className="flex lg:flex-col w-full max-w-lg justify-center [&_.active]:bg-base-300 lg:p-2 lg:justify-start lg:gap-1">
-                <NavLink
-                    to={"/"}
-                    className="lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20"
-                >
-                    <button className="btn btn-square btn-lg bg-transparent lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
-                        <PiHouseBold className="text-4xl md:text-5xl lg:text-6xl" />
-                    </button>
-                </NavLink>
+        <div className="bg-base-200 flex justify-center lg:flex-col lg:justify-start p-1 gap-1 lg:p-2">
+            <img className="hidden lg:block max-w-xs" src="logo.png" />
 
-                <NavLink
-                    to={"/formation"}
-                    className="lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20"
-                >
-                    <button className="btn btn-square btn-lg bg-transparent lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
-                        <PiCirclesThreeBold className="text-4xl md:text-5xl lg:text-6xl" />
-                    </button>
-                </NavLink>
-
-                <NavLink
-                    to={"/library"}
-                    className="lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20"
-                >
-                    <button className="btn btn-square btn-lg bg-transparent lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
-                        <PiBookBookmarkBold className="text-4xl md:text-5xl lg:text-6xl" />
-                    </button>
-                </NavLink>
-
-                <NavLink
-                    to={"/shop"}
-                    className="lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20"
-                >
-                    <button className="btn btn-square btn-lg bg-transparent lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
-                        <PiShoppingBagBold className="text-4xl md:text-5xl lg:text-6xl" />
-                    </button>
-                </NavLink>
-
-                <NavLink
-                    to={"/settings"}
-                    className="lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20"
-                >
-                    <button className="btn btn-square btn-lg bg-transparent lg:rounded-xl md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
-                        <PiGearSixBold className="text-4xl md:text-5xl lg:text-6xl" />
-                    </button>
-                </NavLink>
-            </div>
+            <ResponsiveNavLink
+                icon={<PiHouseBold className="text-4xl md:text-5xl" />}
+                text={"Home"}
+            />
+            <ResponsiveNavLink
+                icon={<PiTrophyBold className="text-4xl md:text-5xl" />}
+                text={"Leaderboard"}
+            />
+            <ResponsiveNavLink
+                icon={<PiNewspaperClippingBold className="text-4xl md:text-5xl" />}
+                text={"News"}
+            />
+            <ResponsiveNavLink
+                icon={<PiUsersBold className="text-4xl md:text-5xl" />}
+                text={"Friends"}
+            />
+            <ResponsiveNavLink
+                icon={<PiGearSixBold className="text-4xl md:text-5xl" />}
+                text={"Settings"}
+            />
         </div>
     );
 };

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    box-sizing: border-box;
+}
+
+#root {
+    height: 100vh;
+}
+
+h1 {
+    font-size: xx-large;
+}
