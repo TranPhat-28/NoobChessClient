@@ -2,9 +2,15 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { PiRobotBold, PiHandFistBold } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { addUserAuth } from "../redux/features/auth/authSlice";
 
 const Home = () => {
+    // Redux
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.userAuth.user);
+console.log(user)
     const googleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
@@ -13,20 +19,22 @@ const Home = () => {
                     googleAccessToken: tokenResponse.access_token,
                 });
 
-                // const data = await axios.get(
-                //     "https://www.googleapis.com/oauth2/v3/userinfo",
-                //     {
-                //         headers: {
-                //             Authorization: `Bearer ${tokenResponse.access_token}`,
-                //         },
-                //     }
-                // );
+                // Set the Redux
+                const user = {
+                    email: response.data.email,
+                    token: response.data.data,
+                };
+
+                dispatch(addUserAuth(user));
+                localStorage.setItem(
+                    "NoobChessClientUser",
+                    JSON.stringify(user)
+                );
 
                 toast.success(response.data.message);
             } catch (err) {
                 toast.error(err.response.data.message);
             }
-            // You can now use the tokenResponse to authenticate the user in your app
         },
         onError: () => {
             console.error("Google login failed");
@@ -37,7 +45,7 @@ const Home = () => {
     return (
         <div className="h-full w-full pt-10">
             <h1 className="font-display text-2xl text-center sm:text-3xl md:text-4xl mb-0">
-                Welcome to Noob Chess
+                {user ? `Welcome back ${user.email}` : "Welcome to Noob Chess"}
             </h1>
             <p className="text-center px-14">
                 Practice your chess skill or play with friends right away
