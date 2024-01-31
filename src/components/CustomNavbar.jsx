@@ -5,7 +5,6 @@ import {
     PiTrophyBold,
     PiNewspaperClippingBold,
 } from "react-icons/pi";
-import { NavLink } from "react-router-dom";
 import ResponsiveNavLink from "./ResponsiveNavLink";
 
 const CustomNavbar = () => {
@@ -16,22 +15,27 @@ const CustomNavbar = () => {
             <ResponsiveNavLink
                 icon={<PiHouseBold className="text-4xl md:text-5xl" />}
                 text={"Home"}
+                link={"/"}
             />
             <ResponsiveNavLink
                 icon={<PiTrophyBold className="text-4xl md:text-5xl" />}
                 text={"Leaderboard"}
+                link={"/leaderboard"}
             />
             <ResponsiveNavLink
                 icon={<PiNewspaperClippingBold className="text-4xl md:text-5xl" />}
                 text={"News"}
+                link={"/news"}
             />
             <ResponsiveNavLink
                 icon={<PiUsersBold className="text-4xl md:text-5xl" />}
                 text={"Friends"}
+                link={"/friends"}
             />
             <ResponsiveNavLink
                 icon={<PiGearSixBold className="text-4xl md:text-5xl" />}
                 text={"Settings"}
+                link={"/settings"}
             />
         </div>
     );
