@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addUserAuth } from "../redux/features/auth/authSlice";
 import animation from "../assets/animation.gif";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 const Home = () => {
     // Redux
@@ -16,18 +17,18 @@ const Home = () => {
         onSuccess: async (tokenResponse) => {
             try {
                 // Send the token to the backend to verify and wait for a response JWT
-                const response = await axios.post("/api/Login/Google", {
+                const backend_response = await axios.post("/api/Login/Google", {
                     googleAccessToken: tokenResponse.access_token,
                 });
 
                 // Set the Redux
-                dispatch(addUserAuth(response.data.data));
+                dispatch(addUserAuth(backend_response.data.data));
                 localStorage.setItem(
                     "NoobChessClientUser",
-                    JSON.stringify(response.data.data)
+                    JSON.stringify(backend_response.data.data)
                 );
 
-                toast.success(response.data.message);
+                toast.success(backend_response.data.message);
             } catch (err) {
                 // console.log(err);
                 toast.error("Error logging in with Google");
@@ -38,6 +39,27 @@ const Home = () => {
             // Handle login errors here
         },
     });
+
+    const facebookLogin = async (response) => {
+        try {
+            // Send the token to the backend to verify and wait for a response JWT
+            const backend_response = await axios.post("/api/Login/Facebook", {
+                facebookAccessToken: response.accessToken,
+            });
+
+            // Set the Redux
+            dispatch(addUserAuth(backend_response.data.data));
+            localStorage.setItem(
+                "NoobChessClientUser",
+                JSON.stringify(backend_response.data.data)
+            );
+
+            toast.success(backend_response.data.message);
+        } catch (err) {
+            // console.log(err);
+            toast.error("Error logging in with Facebook");
+        }
+    };
 
     return (
         <div className="h-full w-full pt-10">
@@ -68,10 +90,19 @@ const Home = () => {
                         Google
                     </button>
 
-                    <button className="btn btn-outline hover:border-blue-600 hover:bg-blue-600">
-                        <FaFacebookF />
-                        Facebook
-                    </button>
+                    <FacebookLogin
+                        appId="1371810450190886"
+                        callback={facebookLogin}
+                        render={(renderProps) => (
+                            <button
+                                className="btn btn-outline hover:border-blue-600 hover:bg-blue-600"
+                                onClick={renderProps.onClick}
+                            >
+                                <FaFacebookF />
+                                Facebook
+                            </button>
+                        )}
+                    />
                 </div>
             )}
 
