@@ -18,6 +18,8 @@ const Settings = () => {
         navigate("/");
     };
 
+    console.log(user)
+
     return (
         <div className="h-full w-full flex flex-col items-center justify-center">
             {user && (
@@ -37,7 +39,7 @@ const Settings = () => {
                             <tbody>
                                 <tr className="hover">
                                     <th>Member since:</th>
-                                    <td>dd/mm/yyyy</td>
+                                    <td>{user.dateJoined}</td>
                                 </tr>
 
                                 <tr className="hover">

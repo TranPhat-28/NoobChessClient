@@ -44,6 +44,7 @@ const Home = () => {
         try {
             // Send the token to the backend to verify and wait for a response JWT
             const backend_response = await axios.post("/api/Login/Facebook", {
+                email: response.email,
                 facebookAccessToken: response.accessToken,
             });
 
