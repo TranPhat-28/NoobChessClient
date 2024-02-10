@@ -6,6 +6,7 @@ import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Friends from "./pages/Friends";
+import Social from "./pages/Social";
 
 function App() {
     const user = "A";
@@ -14,7 +15,7 @@ function App() {
         <Routes>
             <Route path="/" element={<RootLayout />}>
                 <Route index element={<Home />} />
-                <Route path="/leaderboard" element={<div>Leaderboard</div>} />
+                <Route path="/social" element={<Social />} />
                 <Route path="/news" element={<div>News</div>} />
                 <Route path="/friends" element={<Friends />} />
                 <Route path="/settings" element={<Settings />} />

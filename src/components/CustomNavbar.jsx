@@ -2,8 +2,8 @@ import {
     PiUsersBold,
     PiGearSixBold,
     PiHouseBold,
-    PiTrophyBold,
     PiNewspaperClippingBold,
+    PiShareNetworkBold,
 } from "react-icons/pi";
 import ResponsiveNavLink from "./ResponsiveNavLink";
 
@@ -18,9 +18,9 @@ const CustomNavbar = () => {
                 link={"/"}
             />
             <ResponsiveNavLink
-                icon={<PiTrophyBold className="text-4xl md:text-5xl" />}
-                text={"Leaderboard"}
-                link={"/leaderboard"}
+                icon={<PiShareNetworkBold className="text-4xl md:text-5xl" />}
+                text={"Social"}
+                link={"/social"}
             />
             <ResponsiveNavLink
                 icon={<PiNewspaperClippingBold className="text-4xl md:text-5xl" />}
