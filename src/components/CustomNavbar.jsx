@@ -19,8 +19,8 @@ const CustomNavbar = () => {
             />
             <ResponsiveNavLink
                 icon={<PiShareNetworkBold className="text-4xl md:text-5xl" />}
-                text={"Social"}
-                link={"/social"}
+                text={"Lobby"}
+                link={"/lobby"}
             />
             <ResponsiveNavLink
                 icon={<PiNewspaperClippingBold className="text-4xl md:text-5xl" />}
@@ -29,8 +29,8 @@ const CustomNavbar = () => {
             />
             <ResponsiveNavLink
                 icon={<PiUsersBold className="text-4xl md:text-5xl" />}
-                text={"Friends"}
-                link={"/friends"}
+                text={"Social"}
+                link={"/social"}
             />
             <ResponsiveNavLink
                 icon={<PiGearSixBold className="text-4xl md:text-5xl" />}
