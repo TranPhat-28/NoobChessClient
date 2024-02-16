@@ -1,6 +1,11 @@
+import { useSelector } from "react-redux";
 import FriendListItem from "../components/FriendListItem";
+import { MdSend } from "react-icons/md";
 
 const Social = () => {
+    // Redux
+    const user = useSelector((state) => state.userAuth.user);
+
     const mockFriendList = [
         "Friend A",
         "Friend B",
@@ -41,9 +46,13 @@ const Social = () => {
             <div className="h-1/2 lg:h-3/5 w-full max-w-2xl flex flex-col">
                 <h2 className="text-2xl font-bold">Your Friends</h2>
                 <div className="bg-base-200 h-full p-2 flex flex-col gap-2 overflow-y-scroll">
-                    {mockFriendList.map((friend, index) => (
-                        <FriendListItem key={index} name={friend} />
-                    ))}
+                    {user ? (
+                        mockFriendList.map((friend, index) => (
+                            <FriendListItem key={index} name={friend} />
+                        ))
+                    ) : (
+                        <p>Login to connect with your friends</p>
+                    )}
                 </div>
             </div>
 
@@ -54,11 +63,19 @@ const Social = () => {
                         <p key={index}>User: {message}</p>
                     ))}
                 </div>
-                <input
-                    type="text"
-                    placeholder="Aa..."
-                    className="input input-bordered w-full"
-                />
+                <div className="w-full flex border">
+                    <input
+                        disabled={!user}
+                        type="text"
+                        placeholder={user ? "Aa..." : "Login to join the chat"}
+                        className="input input-bordered w-full"
+                    />
+                    {user && (
+                        <button className="btn btn-primary">
+                            <MdSend />
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
