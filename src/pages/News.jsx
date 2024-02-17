@@ -15,13 +15,13 @@ const News = () => {
         setArticles(null);
 
         axios
-            .get(
-                `https://newsapi.org/v2/everything?q=+chess&searchIn=title&pageSize=3&apiKey=009f843c9303421b9048011b95ccf8c9&page=${page}`
-            )
+            .post("/api/Articles", {
+                page: page,
+            })
             .then(function (response) {
                 // Handle success
                 setLoading(false);
-                setArticles(response.data.articles);
+                setArticles(response.data.data);
                 setInit(false);
             })
             .catch(function (error) {
@@ -53,7 +53,7 @@ const News = () => {
                 </div>
             )}
 
-            {!init && (
+            {(!init && !error) && (
                 <div className="join w-full flex-grow-0 flex justify-center">
                     <button
                         className="join-item btn"

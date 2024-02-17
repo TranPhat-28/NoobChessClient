@@ -12,7 +12,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 
-axios.defaults.baseURL = "http://localhost:5038/";
+// axios.defaults.baseURL = "http://localhost:5038/";
+axios.defaults.baseURL = "https://noob-chess-server.onrender.com";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
