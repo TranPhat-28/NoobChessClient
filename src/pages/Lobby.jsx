@@ -20,7 +20,7 @@ const Lobby = () => {
     ];
 
     return (
-        <div className="h-full w-full p-4 gap-4 lg:gap-6 flex flex-col lg:flex-row items-center justify-center overflow-hidden">
+        <div className="h-full w-full p-4 gap-4 lg:gap-6 flex flex-col lg:flex-row items-center lg:justify-center overflow-hidden">
             <div className="h-3/5 w-full max-w-2xl flex flex-col">
                 <h2 className="text-2xl font-bold">Game Rooms</h2>
                 <div className="bg-base-200 h-full p-2 flex flex-col gap-2 overflow-y-scroll">

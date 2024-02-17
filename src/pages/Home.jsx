@@ -1,14 +1,18 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
-import { PiRobotBold, PiHandFistBold } from "react-icons/pi";
+import { TbChessQueenFilled, TbNews } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addUserAuth } from "../redux/features/auth/authSlice";
 import animation from "../assets/animation.gif";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { addUserAuth } from "../redux/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+    // Navigate
+    const navigate = useNavigate();
+
     // Redux
     const dispatch = useDispatch();
     const user = useSelector((state) => state.userAuth.user);
@@ -106,18 +110,23 @@ const Home = () => {
                 </div>
             )}
 
-            <h2 className="text-2xl text-center">Start a game now</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 p-4 gap-2">
-                <button className="btn text-lg h-full sm:p-6">
+                <button
+                    className="btn text-lg h-full sm:p-6"
+                    onClick={() => navigate("/lobby")}
+                >
                     <div className="flex items-center gap-4">
-                        <PiRobotBold className="text-6xl" />
-                        <p>Play against AI bot</p>
+                        <TbChessQueenFilled className="text-6xl" />
+                        <p>Start playing now</p>
                     </div>
                 </button>
-                <button className="btn text-lg h-full sm:p-6">
+                <button
+                    className="btn text-lg h-full sm:p-6"
+                    onClick={() => navigate("/news")}
+                >
                     <div className="flex items-center gap-4">
-                        <PiHandFistBold className="text-6xl" />
-                        <p>Random multiplayer</p>
+                        <TbNews className="text-6xl" />
+                        <p>Visit some articles</p>
                     </div>
                 </button>
             </div>
