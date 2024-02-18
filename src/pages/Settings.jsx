@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import useLogout from "../hooks/Users";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import useCustomAuth from "../hooks/CustomAuth";
 
 const Settings = () => {
     // User
     const user = useSelector((state) => state.userAuth.user);
 
     // Hook
-    const { logout } = useLogout();
+    const { logout } = useCustomAuth();
     const navigate = useNavigate();
 
     // Logout function

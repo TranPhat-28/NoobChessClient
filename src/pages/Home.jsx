@@ -1,69 +1,21 @@
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { TbChessQueenFilled, TbNews } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import animation from "../assets/animation.gif";
-import { addUserAuth } from "../redux/features/auth/authSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import animation from "../assets/animation.gif";
+import useCustomAuth from "../hooks/CustomAuth";
 
 const Home = () => {
     // Navigate
     const navigate = useNavigate();
 
     // Redux
-    const dispatch = useDispatch();
     const user = useSelector((state) => state.userAuth.user);
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            try {
-                // Send the token to the backend to verify and wait for a response JWT
-                const backend_response = await axios.post("/api/Login/Google", {
-                    googleAccessToken: tokenResponse.access_token,
-                });
-
-                // Set the Redux
-                dispatch(addUserAuth(backend_response.data.data));
-                localStorage.setItem(
-                    "NoobChessClientUser",
-                    JSON.stringify(backend_response.data.data)
-                );
-
-                toast.success(backend_response.data.message);
-            } catch (err) {
-                // console.log(err);
-                toast.error("Error logging in with Google");
-            }
-        },
-        onError: () => {
-            toast.error("Google login failed");
-            // Handle login errors here
-        },
-    });
-
-    const facebookLogin = async (response) => {
-        try {
-            // Send the token to the backend to verify and wait for a response JWT
-            const backend_response = await axios.post("/api/Login/Facebook", {
-                facebookAccessToken: response.accessToken,
-            });
-
-            // Set the Redux
-            dispatch(addUserAuth(backend_response.data.data));
-            localStorage.setItem(
-                "NoobChessClientUser",
-                JSON.stringify(backend_response.data.data)
-            );
-
-            toast.success(backend_response.data.message);
-        } catch (err) {
-            // console.log(err);
-            toast.error("Error logging in with Facebook");
-        }
-    };
+    // Custom hook
+    const { googleLogin, googleLoading, facebookLogin, facebookLoading } =
+        useCustomAuth();
 
     return (
         <div className="h-full w-full pt-10">
@@ -87,10 +39,16 @@ const Home = () => {
             {!user && (
                 <div className="flex gap-2 justify-center pb-6">
                     <button
-                        className="btn btn-outline hover:border-red-600 hover:bg-red-600"
-                        onClick={() => googleLogin()}
+                        className={`btn ${
+                            googleLoading ? "btn-disabled" : "btn-outline"
+                        } hover:border-red-600 hover:bg-red-600`}
+                        onClick={googleLogin}
                     >
-                        <FaGoogle />
+                        {googleLoading ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <FaGoogle />
+                        )}
                         Google
                     </button>
 
@@ -99,10 +57,18 @@ const Home = () => {
                         callback={facebookLogin}
                         render={(renderProps) => (
                             <button
-                                className="btn btn-outline hover:border-blue-600 hover:bg-blue-600"
+                                className={`btn ${
+                                    facebookLoading
+                                        ? "btn-disabled"
+                                        : "btn-outline"
+                                } hover:border-blue-600 hover:bg-blue-600`}
                                 onClick={renderProps.onClick}
                             >
-                                <FaFacebookF />
+                                {facebookLoading ? (
+                                    <span className="loading loading-spinner"></span>
+                                ) : (
+                                    <FaFacebookF />
+                                )}
                                 Facebook
                             </button>
                         )}
