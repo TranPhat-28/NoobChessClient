@@ -1,16 +1,39 @@
 import { Chessboard } from "react-chessboard";
-import InGameProfile from "../components/InGameProfile";
 import { useOutletContext } from "react-router-dom";
+import InGameProfile from "../components/InGameProfile";
+import useGuessModeGameHandler from "../hooks/GuessModeGameHandler";
 
 const Game = () => {
     const roomInfo = useOutletContext();
+
+    // Game handler
+    const {
+        game,
+        onSquareClick,
+        optionSquares,
+        showPromotionDialog,
+        onPromotionPieceSelect,
+        moveTo,
+    } = useGuessModeGameHandler();
 
     return (
         <div className="h-full w-full bg-base-200 flex items-center justify-center">
             <div className="h-full w-full max-w-lg lg:max-w-6xl max-h-[42rem] flex flex-col lg:flex-row">
                 {/* Chessboard container */}
                 <div className="bg-base-200 lg:bg-base-300 lg:rounded w-full p-2 lg:max-w-xl self-center">
-                    <Chessboard />
+                    <Chessboard
+                        id="ClickToMove"
+                        animationDuration={200}
+                        arePiecesDraggable={false}
+                        position={game.fen()}
+                        onSquareClick={onSquareClick}
+                        onPromotionPieceSelect={onPromotionPieceSelect}
+                        customSquareStyles={{
+                            ...optionSquares,
+                        }}
+                        promotionToSquare={moveTo}
+                        showPromotionDialog={showPromotionDialog}
+                    />
                 </div>
 
                 {/* Container */}

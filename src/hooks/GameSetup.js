@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useGamePlayersSetup = () => {
+const useGameSetup = () => {
     const navigate = useNavigate();
 
     const [roomInfo, setRoomInfo] = useState({
@@ -20,7 +20,24 @@ const useGamePlayersSetup = () => {
         },
     })
 
-    const PlayerInformationSetup = (mode) => {
+    const leaveRoomHandler = (mode) => {
+        switch (mode) {
+            case "guess":
+                // No game saving, go straight back to lobby
+                navigate("/lobby");
+                break;
+            case "singleplayer":
+                console.log("SINGLEPLAYER")
+                break;
+            case "multiplayer":
+                console.log("MULTIPLAYER")
+                break;
+            default:
+                console.log("Leave game");
+        }
+    }
+
+    const playerInformationSetup = (mode) => {
         switch (mode) {
             case "guess":
                 setRoomInfo({
@@ -51,7 +68,7 @@ const useGamePlayersSetup = () => {
         }
     }
 
-    return { roomInfo, PlayerInformationSetup }
+    return { roomInfo, playerInformationSetup, leaveRoomHandler }
 }
 
-export default useGamePlayersSetup;
+export default useGameSetup;

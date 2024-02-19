@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import InGameProfile from "../components/InGameProfile";
-import useGamePlayersSetup from "../hooks/GamePlayersSetup";
+import useGameSetup from "../hooks/GameSetup";
 
 const GameLayout = () => {
     const { mode } = useParams();
 
     // Game info hook
-    const { roomInfo, PlayerInformationSetup } = useGamePlayersSetup();
+    const { roomInfo, playerInformationSetup, leaveRoomHandler } =
+        useGameSetup();
 
     useEffect(() => {
-        PlayerInformationSetup(mode);
+        playerInformationSetup(mode);
     }, []);
 
     return (
@@ -46,7 +47,12 @@ const GameLayout = () => {
                     <div className="flex-none hidden lg:block">
                         <ul className="menu menu-horizontal">
                             {/* Navbar menu content here */}
-                            <button className="btn btn-outline btn-error">
+                            <button
+                                className="btn btn-outline btn-error"
+                                onClick={() => {
+                                    leaveRoomHandler(mode);
+                                }}
+                            >
                                 Leave game
                             </button>
                         </ul>
@@ -78,7 +84,12 @@ const GameLayout = () => {
                         description={roomInfo.black.description}
                         img={roomInfo.black.img}
                     />
-                    <button className="btn btn-outline btn-error">
+                    <button
+                        className="btn btn-outline btn-error"
+                        onClick={() => {
+                            leaveRoomHandler(mode);
+                        }}
+                    >
                         Leave game
                     </button>
                 </ul>
