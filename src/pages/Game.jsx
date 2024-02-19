@@ -1,7 +1,10 @@
 import { Chessboard } from "react-chessboard";
 import InGameProfile from "../components/InGameProfile";
+import { useOutletContext } from "react-router-dom";
 
 const Game = () => {
+    const roomInfo = useOutletContext();
+
     return (
         <div className="h-full w-full bg-base-200 flex items-center justify-center">
             <div className="h-full w-full max-w-lg lg:max-w-6xl max-h-[42rem] flex flex-col lg:flex-row">
@@ -32,8 +35,20 @@ const Game = () => {
 
                     {/* Player's profiles */}
                     <div className="hidden lg:flex lg:flex-col lg:justify-between lg:h-2/5">
-                        <InGameProfile />
-                        <InGameProfile />
+                        <InGameProfile
+                            isBlack={false}
+                            name={roomInfo.white.name}
+                            value={roomInfo.white.value}
+                            description={roomInfo.white.description}
+                            img={roomInfo.white.img}
+                        />
+                        <InGameProfile
+                            isBlack={true}
+                            name={roomInfo.black.name}
+                            value={roomInfo.black.value}
+                            description={roomInfo.black.description}
+                            img={roomInfo.black.img}
+                        />
                     </div>
                 </div>
             </div>

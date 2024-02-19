@@ -1,7 +1,18 @@
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useParams } from "react-router-dom";
 import InGameProfile from "../components/InGameProfile";
+import useGamePlayersSetup from "../hooks/GamePlayersSetup";
 
 const GameLayout = () => {
+    const { mode } = useParams();
+
+    // Game info hook
+    const { roomInfo, PlayerInformationSetup } = useGamePlayersSetup();
+
+    useEffect(() => {
+        PlayerInformationSetup(mode);
+    }, []);
+
     return (
         <div className="drawer h-full w-full">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -30,7 +41,7 @@ const GameLayout = () => {
                         </label>
                     </div>
                     <div className="flex-1 px-2 mx-2 font-bold text-lg">
-                        Room 1234
+                        {roomInfo.roomTitle}
                     </div>
                     <div className="flex-none hidden lg:block">
                         <ul className="menu menu-horizontal">
@@ -43,7 +54,7 @@ const GameLayout = () => {
                 </div>
 
                 {/* Page content here */}
-                <Outlet />
+                <Outlet context={roomInfo} />
             </div>
             <div className="drawer-side">
                 <label
@@ -53,8 +64,20 @@ const GameLayout = () => {
                 ></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 gap-4">
                     {/* Sidebar content here */}
-                    <InGameProfile />
-                    <InGameProfile />
+                    <InGameProfile
+                        isBlack={false}
+                        name={roomInfo.white.name}
+                        value={roomInfo.white.value}
+                        description={roomInfo.white.description}
+                        img={roomInfo.white.img}
+                    />
+                    <InGameProfile
+                        isBlack={true}
+                        name={roomInfo.black.name}
+                        value={roomInfo.black.value}
+                        description={roomInfo.black.description}
+                        img={roomInfo.black.img}
+                    />
                     <button className="btn btn-outline btn-error">
                         Leave game
                     </button>

@@ -24,7 +24,7 @@ function App() {
             </Route>
 
             <Route path="/game" element={<GameLayout />}>
-                <Route index element={<Game />} />
+                <Route path=":mode" element={<Game />} />
             </Route>
 
             <Route path="*" element={<div>Not found</div>} />
