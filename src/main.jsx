@@ -11,6 +11,7 @@ import { MoonLoader } from "react-spinners";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
+import LoadingModal from "./components/LoadingModal.jsx";
 
 // axios.defaults.baseURL = "http://localhost:5038/";
 axios.defaults.baseURL = "https://noob-chess-server.onrender.com";
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <React.Suspense fallback={<MoonLoader />}>
                     <BrowserRouter>
                         <App />
+                        <LoadingModal />
                         <ToastContainer theme="colored" autoClose={1000} />
                     </BrowserRouter>
                 </React.Suspense>

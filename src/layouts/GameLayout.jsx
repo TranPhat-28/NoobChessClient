@@ -1,10 +1,13 @@
 import { useEffect } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import InGameProfile from "../components/InGameProfile";
 import useGameSetup from "../hooks/GameSetup";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const GameLayout = () => {
     const { mode } = useParams();
+    const navigate = useNavigate();
 
     // Game info hook
     const { roomInfo, playerInformationSetup, leaveRoomHandler } =
@@ -12,6 +15,21 @@ const GameLayout = () => {
 
     useEffect(() => {
         playerInformationSetup(mode);
+
+        // Show the loading modal
+        document.getElementById("loading_modal").showModal();
+
+        // Request to get backend ready
+        axios.get("/api/IsReady").then((response) => {
+            if (response.data == "OK") {
+                // Close the loading modal
+                document.getElementById("loading_modal").close();
+            } else {
+                // Something went wrong
+                navigate("/lobby");
+                toast.error("Something went wrong");
+            }
+        });
     }, []);
 
     return (

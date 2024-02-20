@@ -2,6 +2,7 @@ import { Chessboard } from "react-chessboard";
 import { useOutletContext } from "react-router-dom";
 import InGameProfile from "../components/InGameProfile";
 import useGuessModeGameHandler from "../hooks/GuessModeGameHandler";
+import MoveHistory from "../components/MoveHistory";
 
 const Game = () => {
     const roomInfo = useOutletContext();
@@ -14,6 +15,8 @@ const Game = () => {
         showPromotionDialog,
         onPromotionPieceSelect,
         moveTo,
+        whiteHistory,
+        blackHistory,
     } = useGuessModeGameHandler();
 
     return (
@@ -42,17 +45,10 @@ const Game = () => {
                     <div className="h-full lg:h-1/2 flex flex-col lg:bg-base-300 lg:rounded p-2">
                         <h2 className="text-2xl font-bold">Moves History</h2>
                         <div className="bg-base-300 lg:bg-base-200 rounded h-full p-2 flex flex-col gap-2 overflow-y-scroll">
-                            <p>Black: e2e3</p>
-                            <p>White: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
-                            <p>Move: e2e3</p>
+                            <MoveHistory
+                                whiteHistory={whiteHistory}
+                                blackHistory={blackHistory}
+                            />
                         </div>
                     </div>
 

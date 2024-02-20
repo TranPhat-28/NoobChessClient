@@ -4,11 +4,20 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const useGuessModeGameHandler = () => {
+    // The game
     const [game, setGame] = useState(new Chess());
+
+    // Highlighting the squares
     const [moveFrom, setMoveFrom] = useState("");
     const [moveTo, setMoveTo] = useState(null);
+
+    // Promotion dialog
     const [showPromotionDialog, setShowPromotionDialog] = useState(false);
     const [optionSquares, setOptionSquares] = useState({});
+
+    // MoveHistory
+    const [whiteHistory, setWhiteHistory] = useState([]);
+    const [blackHistory, setBlackHistory] = useState([]);
 
     function getMoveOptions(square) {
         const moves = game.moves({
@@ -45,15 +54,7 @@ const useGuessModeGameHandler = () => {
         // exit if the game is over
         // if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
         //     return;
-
-        // const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-        // safeGameMutate((game) => {
-        //     game.move(possibleMoves[randomIndex]);
-        // });
         try {
-            // Send the token to the backend to verify and wait for a response JWT
-            console.log(game.fen());
-
             const aiMoveResponse = await toast.promise(
                 axios.post("/api/Singleplayer/Guess", {
                     guessModeInputFEN: game.fen(),
@@ -64,8 +65,18 @@ const useGuessModeGameHandler = () => {
                 }
             );
 
+            // const gameCopy = game;
+            // gameCopy.move(aiMoveResponse.data.data);
+
             const gameCopy = game;
-            gameCopy.move(aiMoveResponse.data.data);
+            const move = gameCopy.move({
+                from: aiMoveResponse.data.data.from,
+                to: aiMoveResponse.data.data.to,
+                promotion: "q",
+            });
+
+            // console.log(`Black ${move.from}${move.to}`)
+            setBlackHistory([...blackHistory, `${move.from}${move.to}`])
 
             setGame(gameCopy);
             setMoveFrom("");
@@ -128,6 +139,9 @@ const useGuessModeGameHandler = () => {
                 promotion: "q",
             });
 
+            // console.log(`White ${move.from}${move.to}`)
+            setWhiteHistory([...whiteHistory, `${move.from}${move.to}`])
+
             // if invalid, setMoveFrom and getMoveOptions
             if (move === null) {
                 const hasMoveOptions = getMoveOptions(square);
@@ -149,11 +163,15 @@ const useGuessModeGameHandler = () => {
         // if no piece passed then user has cancelled dialog, don't make move and reset
         if (piece) {
             const gameCopy = game;
-            gameCopy.move({
+            const move = gameCopy.move({
                 from: moveFrom,
                 to: moveTo,
                 promotion: piece[1].toLowerCase() ?? "q",
             });
+
+            // console.log(`White ${move.from}${move.to}`)
+            setWhiteHistory([...whiteHistory, `${move.from}${move.to}`])
+
             setGame(gameCopy);
             fetchAiResponseMove();
         }
@@ -165,7 +183,7 @@ const useGuessModeGameHandler = () => {
         return true;
     }
 
-    return { game, onSquareClick, optionSquares, showPromotionDialog, onPromotionPieceSelect, moveTo };
+    return { game, onSquareClick, optionSquares, showPromotionDialog, onPromotionPieceSelect, moveTo, whiteHistory, blackHistory };
 }
 
 export default useGuessModeGameHandler;
