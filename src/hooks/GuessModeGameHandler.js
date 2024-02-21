@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const useGuessModeGameHandler = () => {
     // The game
-    const [game, setGame] = useState(new Chess());
+    const [game, setGame] = useState(new Chess("8/1q2P1k1/8/5K2/8/8/5B2/8 b - - 0 1"));
 
     // Highlighting the squares
     const [moveFrom, setMoveFrom] = useState("");
@@ -65,14 +65,11 @@ const useGuessModeGameHandler = () => {
                 }
             );
 
-            // const gameCopy = game;
-            // gameCopy.move(aiMoveResponse.data.data);
-
             const gameCopy = game;
             const move = gameCopy.move({
                 from: aiMoveResponse.data.data.from,
                 to: aiMoveResponse.data.data.to,
-                promotion: "q",
+                promotion: aiMoveResponse.data.data.promotion,
             });
 
             // console.log(`Black ${move.from}${move.to}`)
