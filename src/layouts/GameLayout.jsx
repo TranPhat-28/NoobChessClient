@@ -1,9 +1,11 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import InGameProfile from "../components/InGameProfile";
 import useGameSetup from "../hooks/GameSetup";
-import axios from "axios";
-import { toast } from "react-toastify";
+import useGuessModeGameHandler from "../hooks/GuessModeGameHandler";
+import GameResultModal from "../components/GameResultModal";
 
 const GameLayout = () => {
     const { mode } = useParams();
@@ -12,6 +14,8 @@ const GameLayout = () => {
     // Game info hook
     const { roomInfo, playerInformationSetup, leaveRoomHandler } =
         useGameSetup();
+
+    // const { endgameInfo } = useGuessModeGameHandler();
 
     useEffect(() => {
         playerInformationSetup(mode);
@@ -112,6 +116,12 @@ const GameLayout = () => {
                     </button>
                 </ul>
             </div>
+
+            {/* <GameResultModal
+                isVictory={endgameInfo.wonSide === "White"}
+                wonSide={endgameInfo.wonSide}
+                endgameType={endgameInfo.endgameType}
+            /> */}
         </div>
     );
 };

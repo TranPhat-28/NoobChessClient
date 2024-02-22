@@ -1,11 +1,15 @@
 import axios from "axios";
 import { Chess } from "chess.js";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const useGuessModeGameHandler = () => {
+    // Navigate
+    const navigate = useNavigate();
     // The game
-    const [game, setGame] = useState(new Chess("8/1q2P1k1/8/5K2/8/8/5B2/8 b - - 0 1"));
+    const [game, setGame] = useState(new Chess("r3k2r/pp4bp/6p1/2PpK3/1n3P1q/7P/PPP5/RNB3NQ w - - 0 1"));
+    // const [game, setGame] = useState(new Chess("8/8/8/8/k1Q5/2K5/8/8 w - - 0 1"));
 
     // Highlighting the squares
     const [moveFrom, setMoveFrom] = useState("");
@@ -18,6 +22,12 @@ const useGuessModeGameHandler = () => {
     // MoveHistory
     const [whiteHistory, setWhiteHistory] = useState([]);
     const [blackHistory, setBlackHistory] = useState([]);
+
+    // Endgame info
+    // const endgameInfo = {
+    //     wonSide: "",
+    //     endgameType: ""
+    // }
 
     function getMoveOptions(square) {
         const moves = game.moves({
@@ -49,11 +59,6 @@ const useGuessModeGameHandler = () => {
     }
 
     async function fetchAiResponseMove() {
-        // const possibleMoves = game.moves();
-
-        // exit if the game is over
-        // if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
-        //     return;
         try {
             const aiMoveResponse = await toast.promise(
                 axios.post("/api/Singleplayer/Guess", {
@@ -65,21 +70,50 @@ const useGuessModeGameHandler = () => {
                 }
             );
 
-            const gameCopy = game;
-            const move = gameCopy.move({
-                from: aiMoveResponse.data.data.from,
-                to: aiMoveResponse.data.data.to,
-                promotion: aiMoveResponse.data.data.promotion,
-            });
+            // Some error happened
+            if (!aiMoveResponse.data.isSuccess) {
+                navigate("/hobby");
+                console.log(aiMoveResponse.data.message);
+            }
+            // If gameover
+            else if (aiMoveResponse.data.data.isGameOver) {
+                // Make the move (if Black won)
+                if (aiMoveResponse.data.data.wonSide === "Black") {
+                    const gameCopy = game;
+                    const move = gameCopy.move({
+                        from: aiMoveResponse.data.data.from,
+                        to: aiMoveResponse.data.data.to,
+                        promotion: aiMoveResponse.data.data.promotion,
+                    });
+                    setBlackHistory([...blackHistory, `${move.from}${move.to}`])
+                }
 
-            // console.log(`Black ${move.from}${move.to}`)
-            setBlackHistory([...blackHistory, `${move.from}${move.to}`])
+                // Then show the dialog
+                // endgameInfo.wonSide = aiMoveResponse.data.data.wonSide;
+                // endgameInfo.endgameType = aiMoveResponse.data.data.endgameType;
 
-            setGame(gameCopy);
-            setMoveFrom("");
-            setMoveTo(null);
-            setOptionSquares({});
+                // console.log(endgameInfo);
+                // document.getElementById("gameResultModal").showModal();
+                // console.log(endgameInfo);
+            }
+            else {
+                const gameCopy = game;
+                const move = gameCopy.move({
+                    from: aiMoveResponse.data.data.from,
+                    to: aiMoveResponse.data.data.to,
+                    promotion: aiMoveResponse.data.data.promotion,
+                });
+
+                // console.log(`Black ${move.from}${move.to}`)
+                setBlackHistory([...blackHistory, `${move.from}${move.to}`])
+
+                setGame(gameCopy);
+                setMoveFrom("");
+                setMoveTo(null);
+                setOptionSquares({});
+            }
         } catch (err) {
+
             console.log(err);
             toast.error("Something went wrong");
         }
