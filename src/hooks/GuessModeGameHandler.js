@@ -1,15 +1,19 @@
 import axios from "axios";
 import { Chess } from "chess.js";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { addEndgameInfo } from "../redux/features/endgameInfo/endgameInfoSlice";
+import { setGlobalModal } from "../redux/features/globalModal/globalModalSlice";
 
 const useGuessModeGameHandler = () => {
     // Navigate
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     // The game
-    const [game, setGame] = useState(new Chess("r3k2r/pp4bp/6p1/2PpK3/1n3P1q/7P/PPP5/RNB3NQ w - - 0 1"));
-    // const [game, setGame] = useState(new Chess("8/8/8/8/k1Q5/2K5/8/8 w - - 0 1"));
+    const [game, setGame] = useState(new Chess());
 
     // Highlighting the squares
     const [moveFrom, setMoveFrom] = useState("");
@@ -22,12 +26,6 @@ const useGuessModeGameHandler = () => {
     // MoveHistory
     const [whiteHistory, setWhiteHistory] = useState([]);
     const [blackHistory, setBlackHistory] = useState([]);
-
-    // Endgame info
-    // const endgameInfo = {
-    //     wonSide: "",
-    //     endgameType: ""
-    // }
 
     function getMoveOptions(square) {
         const moves = game.moves({
@@ -72,8 +70,9 @@ const useGuessModeGameHandler = () => {
 
             // Some error happened
             if (!aiMoveResponse.data.isSuccess) {
-                navigate("/hobby");
-                console.log(aiMoveResponse.data.message);
+                dispatch(setGlobalModal({ title: "Error", description: aiMoveResponse.data.message, img: "/Error.png" }))
+                navigate("/lobby");
+                document.getElementById("globalModal").showModal();
             }
             // If gameover
             else if (aiMoveResponse.data.data.isGameOver) {
@@ -88,13 +87,10 @@ const useGuessModeGameHandler = () => {
                     setBlackHistory([...blackHistory, `${move.from}${move.to}`])
                 }
 
-                // Then show the dialog
-                // endgameInfo.wonSide = aiMoveResponse.data.data.wonSide;
-                // endgameInfo.endgameType = aiMoveResponse.data.data.endgameType;
+                dispatch(addEndgameInfo({ wonSide: aiMoveResponse.data.data.wonSide, endgameType: aiMoveResponse.data.data.endgameType }))
 
-                // console.log(endgameInfo);
-                // document.getElementById("gameResultModal").showModal();
-                // console.log(endgameInfo);
+                // Then show the dialog
+                document.getElementById("gameResultModal").showModal();
             }
             else {
                 const gameCopy = game;
@@ -104,7 +100,6 @@ const useGuessModeGameHandler = () => {
                     promotion: aiMoveResponse.data.data.promotion,
                 });
 
-                // console.log(`Black ${move.from}${move.to}`)
                 setBlackHistory([...blackHistory, `${move.from}${move.to}`])
 
                 setGame(gameCopy);

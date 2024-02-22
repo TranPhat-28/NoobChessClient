@@ -4,18 +4,19 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import InGameProfile from "../components/InGameProfile";
 import useGameSetup from "../hooks/GameSetup";
-import useGuessModeGameHandler from "../hooks/GuessModeGameHandler";
+import { useSelector } from "react-redux";
 import GameResultModal from "../components/GameResultModal";
+// import useGuessModeGameHandler from "../hooks/GuessModeGameHandler";
+// import GameResultModal from "../components/GameResultModal";
 
 const GameLayout = () => {
     const { mode } = useParams();
     const navigate = useNavigate();
+    const endgameInfo = useSelector((state) => state.endgameInfo);
 
     // Game info hook
     const { roomInfo, playerInformationSetup, leaveRoomHandler } =
         useGameSetup();
-
-    // const { endgameInfo } = useGuessModeGameHandler();
 
     useEffect(() => {
         playerInformationSetup(mode);
@@ -117,11 +118,11 @@ const GameLayout = () => {
                 </ul>
             </div>
 
-            {/* <GameResultModal
+            <GameResultModal
                 isVictory={endgameInfo.wonSide === "White"}
                 wonSide={endgameInfo.wonSide}
                 endgameType={endgameInfo.endgameType}
-            /> */}
+            />
         </div>
     );
 };

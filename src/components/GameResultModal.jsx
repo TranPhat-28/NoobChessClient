@@ -7,26 +7,30 @@ const GameResultModal = ({ isVictory, wonSide, endgameType }) => {
     return (
         <dialog id="gameResultModal" className="modal">
             <div className="modal-box flex flex-col items-center">
-                <img src={isVictory === true ? "Victory.png" : "Defeat.png"} />
+                <img
+                    src={isVictory === true ? "/Victory.png" : "/Defeat.png"}
+                />
                 <p className="font-bold text-2xl p-2">
-                    {wonSide} won with a a {endgameType}.
+                    {wonSide} won with a {endgameType}.
                 </p>
 
-                <div className="my-2">
-                    <p className="text-lg">Reward</p>
-                    <div className="flex gap-1">
-                        <p className="text-md sm:text-xl font-bold text-base">
-                            200
-                        </p>
-                    </div>
-                </div>
+                <div className="flex gap-2">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => navigate("/lobby")}
+                    >
+                        OK
+                    </button>
 
-                <button
-                    className="btn btn-primary"
-                    onClick={() => navigate("/lobby")}
-                >
-                    OK
-                </button>
+                    <button
+                        className="btn btn-primary btn-outline"
+                        onClick={() =>
+                            document.getElementById("gameResultModal").close()
+                        }
+                    >
+                        See board
+                    </button>
+                </div>
             </div>
         </dialog>
     );
