@@ -109,8 +109,11 @@ const useGuessModeGameHandler = () => {
             }
         } catch (err) {
 
-            console.log(err);
-            toast.error("Something went wrong");
+            // console.log(err);
+            // toast.error("Something went wrong");
+            dispatch(setGlobalModal({ title: "Error", description: "Server encountered a problem and the game was exterminated.", img: "/Error.png" }))
+            navigate("/lobby");
+            document.getElementById("globalModal").showModal();
         }
     }
 
