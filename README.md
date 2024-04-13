@@ -1,8 +1,6 @@
-# React + Vite
+# Noob Chess Client - Temporarily discontinued
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Frontend: Migrating to a new repo using Typescript.
+- Backend: ElephantSQL will be unavailable in Jan 2025, currently looking for an alternative option.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Because of the above reasons, both Noob Chess Client and Noob Chess Server will be discontinued. I will be working and update newer version of the app to another repo.
